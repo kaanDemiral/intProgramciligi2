@@ -1,0 +1,120 @@
+ public class ServisController : ApiController
+    {
+
+        Database1Entities1 db = new Database1Entities1();
+
+        #region ogrenci
+         
+        [HttpGet]
+        [Route ("api/ogrenciliste")]
+        public List <ogrenciModel> ogrenciListe()
+        {
+            List<ogrenciModel> liste = db.ogrenci.Select(x => new ogrenciModel() { 
+                
+                ogrId= x.ogrId,
+                ogrMail= x.ogrMail,
+                ogrSifre=x.ogrSifre
+            
+            
+            }).ToList();
+
+            return liste;
+
+        }
+
+        #endregion
+
+        
+        [HttpGet]
+        [Route("api/dersler")]
+
+        public List<derslerModel> dersListe()
+        {
+
+            
+            
+            
+            List<derslerModel> liste = db.Dersler.Select(x => new derslerModel()
+            {
+
+                dersId= x.dersId,
+                dersAd= x.dersAd
+
+
+            }).ToList();
+
+            return liste;
+
+
+        }
+
+        
+        [HttpGet]
+        [Route ("api/dersbyid/{dersAd}")]
+        
+        public derslerModel DersById(string dersAd)
+        {
+
+            derslerModel kayit = db.Dersler.Where(s => s.dersAd == dersAd).Select(x => new derslerModel()
+            {
+
+
+                dersId = x.dersId,
+                dersAd = x.dersAd
+
+
+            }).FirstOrDefault();
+            return kayit;
+
+
+        }
+
+
+
+
+
+    }
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+ViewModeller
+
+
+
+
+
+ public class ogrenciModel
+    {
+
+        public int ogrId { get; set; }
+        public string ogrAdsoyad { get; set; }
+        public string ogrMail { get; set; }
+        public string ogrSifre { get; set; }
+
+    }
+
+
+public class derslerModel
+    {
+
+        public int dersId { get; set; }
+        public string dersAd { get; set; }
+        public int sinifId { get; set; }
+
+    }
+
+
+public class yetkiliModel
+    {
+        public int yetkiliId { get; set; }
+        public string yetkiliAdsoyad { get; set; }
+        public string yetkiliMail { get; set; }
+        public string yetkiliSifre { get; set; }
+    }
+
+
+
+
+
+
